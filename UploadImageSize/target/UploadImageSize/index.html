@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页</title>
+</head>
+<style>
+    .file-upload {
+        display: inline-block; 				/* 鍧楀厓绱犺浆鎹负琛屽唴鍏冪礌 */
+        position: relative; 				/* 鐖跺厓绱犱娇鐢ㄧ浉瀵瑰畾浣�, 鏂逛究瀛愬厓绱犺繘琛岀粷瀵瑰畾浣� */
+        width: 80px; 						/* 璁剧疆鍏冪礌瀹藉害, 瀛愬厓绱犺淇濇寔涓€鑷� */
+        height: 30px; 						/* 璁剧疆鍏冪礌楂樺害,瀛愬厓绱犺淇濇寔涓€鑷� */
+        line-height: 30px; 					/* 淇濊瘉label鏍囩鍐呭鍨傜洿灞呬腑 */
+        text-align: center; 				/* 淇濊瘉label鏍囩鍐呭姘村钩灞呬腑 */
+        border-radius: 4px; 			/* 鍦嗚鏍峰紡 */
+        color: black; 					    /* 瀛椾綋棰滆壊 */
+        border: 1px solid black; 		    /* 杈规 */
+        background:cornflowerblue;
+    }
+    .file-upload input{
+        position: absolute; 				/* 瀛愬厓绱犵粷瀵瑰畾浣� */
+        top:0;
+        left:0;
+        width: 80px;
+        height: 30px;
+        opacity: 0; 						/* 璁剧疆閫忔槑 */
+    }
+</style>
+<script src="jquery.js"></script>
+<script src="ajaxfileupload.js"></script>
+<body>
+<div class="file-upload">
+    <label>图片上传</label>
+    <input type="file" onchange="zc()" id="pimage" name="pimage"><br><br>
+     <img id="image"><br><br>
+</div>
+<button onclick="zc1()">确定</button>
+<script>
+    function zc(){
+      $.ajaxFileUpload({
+                url: '/img/login',//用于文件上传的服务器端请求地址
+                secureuri: false,//一般设置为false
+                fileElementId: 'pimage',//文件上传控件的id属性  <input type="file" id="pimage" name="pimage" />
+                dataType: 'text',//返回值类型 一般设置为json
+                success:function(){
+                $.ajax({
+                 method:'get',
+                 url:'/img/name',
+                   xhrFields:{
+                       withCredentials:true
+                   },
+                  success:function(message){
+                    //alert(message)
+                   document.getElementById("image").src="http://localhost:8088/img/image/"+message
+                },
+              })
+            }
+      })
+    }
+    function zc1(){
+        $.ajax({
+            method: 'get',
+            url: '/img/copy',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (message) {
+                alert(message)
+            }
+        })
+    }
+</script>
+</body>
+</html>
